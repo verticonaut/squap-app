@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Member } from '@/types/member';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Stack } from 'expo-router';
 
 export default function AnotherScreen() {
   const [members, setMembers] = useState<Member[]>([]);
@@ -52,47 +54,57 @@ export default function AnotherScreen() {
 
   if (isLoading) {
     return (
-      <ThemedView style={styles.container}>
-        <ThemedText>Loading...</ThemedText>
-      </ThemedView>
+      <SafeAreaView style={styles.safeArea}>
+        <ThemedView style={styles.container}>
+          <ThemedText>Loading...</ThemedText>
+        </ThemedView>
+      </SafeAreaView>
     );
   }
 
   if (error) {
     return (
-      <ThemedView style={styles.container}>
-        <ThemedText>Error: {error}</ThemedText>
-      </ThemedView>
+      <SafeAreaView style={styles.safeArea}>
+        <ThemedView style={styles.container}>
+          <ThemedText>Error: {error}</ThemedText>
+        </ThemedView>
+      </SafeAreaView>
     );
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={styles.title}>Members List</ThemedText>
-      <FlatList
-        data={members}
-        renderItem={renderMemberItem}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.listContainer}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
+    <SafeAreaView style={styles.safeArea} edges={['left', 'right', 'bottom']}>
+      <Stack.Screen
+        options={{
+          title: "Members List",
+          headerShown: true,
+        }}
       />
-    </ThemedView>
+      <ThemedView style={styles.container}>
+        <FlatList
+          data={members}
+          renderItem={renderMemberItem}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.listContainer}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      </ThemedView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
   listContainer: {
     gap: 16,
+    paddingBottom: 16,
   },
   memberCard: {
     padding: 16,
