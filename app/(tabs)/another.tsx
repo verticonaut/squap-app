@@ -1,12 +1,15 @@
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Member } from '@/types/member';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 export default function AnotherScreen() {
+  const router = useRouter();
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,18 +41,23 @@ export default function AnotherScreen() {
   };
 
   const renderMemberItem = ({ item }: { item: Member }) => (
-    <ThemedView style={styles.memberCard}>
-      <ThemedText type="subtitle">{`${item.first_name} ${item.last_name}`}</ThemedText>
-      <ThemedText>{item.email}</ThemedText>
-      <ThemedText>{`${item.street}, ${item.zip_code} ${item.city}`}</ThemedText>
-      <ThemedView style={styles.rolesContainer}>
-        {item.person_roles.map((role) => (
-          <ThemedText key={role.id} style={styles.roleTag}>
-            {role.type}
-          </ThemedText>
-        ))}
+    <Pressable onPress={() => router.push(`/another/${item.id}`)}>
+      <ThemedView style={styles.memberCard}>
+        <ThemedView style={styles.memberContent}>
+          <ThemedText type="subtitle">{`${item.first_name} ${item.last_name}`}</ThemedText>
+          <ThemedText>{item.email}</ThemedText>
+          <ThemedText>{`${item.street}, ${item.zip_code} ${item.city}`}</ThemedText>
+          <ThemedView style={styles.rolesContainer}>
+            {item.person_roles.map((role) => (
+              <ThemedText key={role.id} style={styles.roleTag}>
+                {role.type}
+              </ThemedText>
+            ))}
+          </ThemedView>
+        </ThemedView>
+        <Ionicons name="chevron-forward" size={24} color="#666" />
       </ThemedView>
-    </ThemedView>
+    </Pressable>
   );
 
   if (isLoading) {
@@ -111,6 +119,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ccc',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  memberContent: {
+    flex: 1,
     gap: 4,
   },
   rolesContainer: {
