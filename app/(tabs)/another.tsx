@@ -1,37 +1,14 @@
 import { StyleSheet, FlatList } from 'react-native';
 import { useEffect, useState } from 'react';
-
+import { Member } from '@/types/member';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-
-interface PersonRole {
-  id: number;
-  type: string;
-  active: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-interface Member {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  mobile: string | null;
-  date_of_birth: string;
-  gender_code: string;
-  street: string;
-  city: string;
-  zip_code: string;
-  created_at: string;
-  updated_at: string;
-  person_roles: PersonRole[];
-}
 
 export default function AnotherScreen() {
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchMembers();
@@ -50,6 +27,12 @@ export default function AnotherScreen() {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setIsLoading(false);
     }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchMembers();
+    setRefreshing(false);
   };
 
   const renderMemberItem = ({ item }: { item: Member }) => (
@@ -91,6 +74,8 @@ export default function AnotherScreen() {
         renderItem={renderMemberItem}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContainer}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
       />
     </ThemedView>
   );
