@@ -8,7 +8,7 @@ import { Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-export default function AnotherScreen() {
+export default function MembersListScreen() {
   const router = useRouter();
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +41,7 @@ export default function AnotherScreen() {
   };
 
   const renderMemberItem = ({ item }: { item: Member }) => (
-    <Pressable onPress={() => router.push(`/another/${item.id}`)}>
+    <Pressable onPress={() => router.push(`/members/${item.id}`)}>
       <ThemedView style={styles.memberCard}>
         <ThemedView style={styles.memberContent}>
           <ThemedText type="subtitle">{`${item.first_name} ${item.last_name}`}</ThemedText>
@@ -82,12 +82,12 @@ export default function AnotherScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['left', 'right', 'bottom']}>
-      <Stack.Screen
+      {/* <Stack.Screen
         options={{
           title: "Members List",
           headerShown: true,
         }}
-      />
+      /> */}
       <ThemedView style={styles.container}>
         <FlatList
           data={members}
