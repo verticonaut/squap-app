@@ -45,12 +45,12 @@ export default function TabLayout() {
         name="members"
         options={{
           headerShown: false,
+          title: 'Members',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="star.fill" color={color} />,
         }}
         listeners={{
           tabPress: (e) => {
-            e.preventDefault();
-            router.replace('/members'); // force navigation to members/index ignoreing detail on stack if persent
+            router.push('/members');
           },
         }}
       />

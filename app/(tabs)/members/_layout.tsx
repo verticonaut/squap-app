@@ -3,8 +3,18 @@ import React from 'react'
 
 const Layout = () => {
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ title: 'Members' }} />
+    <Stack
+      screenOptions={{
+        headerShown: true,
+      }}
+    >
+      <Stack.Screen
+        name="index"
+        options={{
+          title: 'Members',
+          headerShown: true,
+        }}
+      />
       <Stack.Screen
         name="[id]"
         options={{
