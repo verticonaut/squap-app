@@ -1,4 +1,5 @@
 import { Tabs } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
@@ -9,6 +10,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
+  const router = useRouter();
   const colorScheme = useColorScheme();
 
   return (
@@ -20,7 +22,6 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
           },
           default: {},
@@ -45,6 +46,12 @@ export default function TabLayout() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="star.fill" color={color} />,
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.replace('/members'); // force navigation to members/index ignoreing detail on stack if persent
+          },
         }}
       />
     </Tabs>

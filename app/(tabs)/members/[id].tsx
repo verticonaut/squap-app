@@ -1,3 +1,7 @@
+export const unstable_settings = {
+  initialRouteName: 'index',
+};
+
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
@@ -56,7 +60,7 @@ export default function MemberDetailsScreen() {
     <SafeAreaView style={styles.safeArea} edges={['left', 'right', 'bottom']}>
       <Stack.Screen
         options={{
-          title: `${member.first_name} ${member.last_name}`,
+          title: member ? `${member.first_name} ${member.last_name}` : 'Loading...',
           headerShown: true,
         }}
       />
