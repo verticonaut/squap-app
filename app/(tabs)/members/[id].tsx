@@ -1,3 +1,5 @@
+import ENV from '@/config/env';
+
 export const unstable_settings = {
   initialRouteName: 'index',
 };
@@ -23,7 +25,7 @@ export default function MemberDetailsScreen() {
 
   const fetchMemberDetails = async () => {
     try {
-      const response = await fetch(`http://0.0.0.0:8000/api/v1/people/${id}`);
+      const response = await fetch(`${ENV.API_URL}/people/${id}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

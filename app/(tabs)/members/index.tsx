@@ -1,3 +1,5 @@
+import ENV from '@/config/env';
+
 import { StyleSheet, FlatList, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Member } from '@/types/member';
@@ -21,7 +23,7 @@ export default function MembersListScreen() {
 
   const fetchMembers = async () => {
     try {
-      const response = await fetch('http://0.0.0.0:8000/api/v1/people');
+      const response = await fetch(`${ENV.API_URL}/people`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
