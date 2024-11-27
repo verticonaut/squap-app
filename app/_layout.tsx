@@ -29,9 +29,21 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack screenOptions={{
+        headerShown: true,
+        headerBackVisible: true,
+        headerBackTitle: '',
+      }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen
+          name="[id]"
+          options={{
+            title: 'Member Details',
+            headerBackVisible: true,
+            headerBackTitle: '',
+          }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
